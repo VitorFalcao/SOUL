@@ -1,3 +1,5 @@
+.include global.s
+
 .org 0x0
 .section .iv, "a"
 
@@ -46,8 +48,26 @@ RESET_HANDLER:
 	mov r0, #0x0
 	str r0, [r1, #GPT_PR]
 	
-	mov r0, #0x64
+	mov r0, TIME_SZ
 	str r0, [r1, #GPT_OCR1]
 	
 	mov r0, #0x1
 	str r0, [r1, #GPT_IR]
+
+IRQ_HANDLER:
+
+	@ Coloca 0x1 no GPT_SR
+    mov r1, #0x1
+    ldr r2, =0x53FA0008
+    str r1, [r2]
+  
+    @ Adiciona 1 ao contador
+	ldr r1, =CONTADOR
+    ldr r2, [r1]
+    add r2, r2, #1
+    str r2, [r1]
+  
+    @ Retorna da interrupcao
+    sub lr, lr, #4
+    movs pc, lr
+
