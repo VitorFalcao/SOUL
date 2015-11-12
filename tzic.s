@@ -41,4 +41,5 @@ SET_TZIC:
 
     @ Instrucao msr - habilita interrupcoes
     msr  CPSR_c, #0x13       @ SUPERVISOR mode, IRQ/FIQ enabled
-
+	
+	mov pc, lr

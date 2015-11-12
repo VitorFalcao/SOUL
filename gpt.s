@@ -1,4 +1,8 @@
 SET_GPT:
+	
+	@ Seta quantos ciclos devem passar para ocorrer uma interrupcao
+	.set TIME_SZ, 0x64
+
 	@ Constantes para os enderecos do GPT
 	.set GPT_BASE, 	0x53FA0000	
 	.set GPT_CR, 	0x0
@@ -19,4 +23,5 @@ SET_GPT:
 	
 	mov r0, #0x1
 	str r0, [r1, #GPT_IR]
-
+	
+	mov pc, lr
