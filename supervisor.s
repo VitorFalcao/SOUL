@@ -38,13 +38,39 @@ SET_MOTORS_SPEED:
 	movs pc, lr
 
 GET_TIME:
-
+	
+	ldr r1, =TIME
+	ldr r0, [r1]
+	
 	movs pc, lr
 
 SET_TIME:
 
+	ldr r1, =TIME
+	str r0, [r1]
+
 	movs pc, lr
 
 SET_ALARM:
+
+	cmp MAX_ALARMS, #0
+	beq alarm_full
+
+	cmp TIME, r1
+	beq invalid_time
+
+	@ SAVE TIME AND FUNCTION POINTER ON STACK	
+
+	movs pc, lr
+
+alarm_full:
+
+	@ RETORNA EM r0 -1
+
+	movs pc, lr
+
+invalid_time:
+
+	@ Retorna em r0 -1
 
 	movs pc, lr

@@ -4,6 +4,8 @@
 @@
 SET_GPIO:
 
+	stmfd sp!, {r0-r1, lr}	
+
 	.set GPIO_BASE, 0x53F84000
 	.set GPIO_GDIR, 0x4
 
@@ -12,4 +14,5 @@ SET_GPIO:
 	mov r0, #0xFFFC003E
 	str r0, [r1, #GPIO_GdIR]
 
+	ldmfd sp!, {r0-r1, lr}
 	mov pc, lr

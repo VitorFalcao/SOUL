@@ -31,6 +31,8 @@ RESET_HANDLER:
 	@ Set interrupt table base address on coprocessor 15.
     ldr r0, =interrupt_vector
     mcr p15, 0, r0, c12, c0, 0
+
+	@ TODO -> ZERAR O CONTADOR!
     
 	@@
 	@	TODO -> SET SP FOR EACH MODE!!
@@ -52,5 +54,5 @@ RESET_HANDLER:
 .include supervisor.s
 .include abort.s
 .include irq.s
-.include fiq.
+.include fiq.s
 
