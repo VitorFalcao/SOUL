@@ -33,7 +33,13 @@ RESET_HANDLER:
     mcr p15, 0, r0, c12, c0, 0
 
 	@ TODO -> ZERAR O CONTADOR!
-    
+	
+
+	@ Set the MAX_ALARMS to 8
+	ldr r0, =MAX_ALARMS
+	mov r1, #8
+	str r1, [r0]
+	    
 	@@
 	@	TODO -> SET SP FOR EACH MODE!!
 	@   MSR CPSR_c, CODE

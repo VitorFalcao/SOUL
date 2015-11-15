@@ -1,11 +1,11 @@
-@size of alarm vector  (endereco faltando)
-.set ALARM_VECTOR_SZ, XXXXXXX
+@ Size of alarm vector  (endereco faltando)
+.set ALARM_VECTOR_SIZE, XXXXXXX
 
-@First position of alarm vector
+@ First position of alarm vector
 .set ALARM_VECTOR, XXXXXXX
 
-@System time
+@ System time
 .set TIME, 0x77801800
 
-@Maximo numero de alarmes
-.set MAX_ALARMS, #8
+@ Max numbers of alarm. Set in  RESET_HANDLER
+.set MAX_ALARMS, XXXXXXXX

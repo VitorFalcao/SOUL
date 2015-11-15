@@ -83,7 +83,7 @@ call_function:
 	ldr r0, [r1]
 
 	add r0, r0, #1
-	str r0, [r1] @ Atualiza o numeros de alarmes disponiveis
+	str r0, [r1] @ Updates the number of available alarms
 
 	ldmfd sp!, {r0-r1, lr}
 	mov pc, lr
