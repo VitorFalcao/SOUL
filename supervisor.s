@@ -60,8 +60,11 @@ SET_ALARM:
 	cmp r3, #0
 	beq alarm_full
 
-	cmp TIME, r1
-	beq invalid_time
+	ldr r4, =TIME
+	ldr r4, [r4]
+
+	cmp r1, r4
+	blt invalid_time
 	
 	@ Updates the number of MAX_ALARMS
 	sub r3, r3, #1
@@ -78,7 +81,8 @@ SET_ALARM:
 	ldr r3, =ALARM_VECTOR_SIZE 
 	ldr r4, [r3]
 
-	mul r5, r4, #8 @ Set the offset to the last ALARM_VECTOR element
+	mov r6, #8
+	mul r5, r4, r6 @ Set the offset to the last ALARM_VECTOR element
 
 	add r2, r2, r5 @ Set r2 address to the last element of ALARM_VECTOR
 	
@@ -104,3 +108,4 @@ invalid_time:
 	
 	mov r0, #-2
 	movs pc, lr
+
