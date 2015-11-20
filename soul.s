@@ -27,6 +27,7 @@ RESET_HANDLER:
     mov r0, #0
     str r0, [r2]	
 
+	@ TODO -> SET MAX_CALLBACKS TO 8
 
 	@ Set the MAX_ALARMS to 8
 	ldr r0, =MAX_ALARMS

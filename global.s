@@ -1,11 +1,20 @@
 @ Size of alarm vector  (endereco faltando)
-.set ALARM_VECTOR_SIZE, 0x8326321
+.set ALARM_VECTOR_SIZE, ADDRES
 
 @ First position of alarm vector
-.set ALARM_VECTOR, 0x88888888
+.set ALARM_VECTOR, ADDRESS
 
 @ System time
-.set TIME, 0x77801800
+.set TIME, ADDRESS
 
 @ Max numbers of alarm. Set in  RESET_HANDLER
-.set MAX_ALARMS, 0x8422321
+.set MAX_ALARMS, ENDERECO
+
+@ First position of the callback vector
+.set CALLBACK_VECTOR, ADDRESS
+
+@ Max number of callbacks. Set in RESET_HANDLER
+.set MAX_CALLBACKS, ADDRESS
+
+@ Size of callback vector
+.set CALLBACK_VECTOR_SIZE, ADDRESS
