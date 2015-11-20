@@ -61,6 +61,7 @@ loop_vector:
     bleq call_function	
 
     @Recupera o valor de r0-r3
+    add r2, r2, #1
 
     b loop_vector
 
@@ -84,6 +85,11 @@ call_function:
 
 	add r0, r0, #1
 	str r0, [r1] @ Updates the number of available alarms
+
+    ldr r1 =ALARM_VECTOR_SZ
+    ldr r0, [r1]
+    sub r0, r0, #1
+    str r0, [r1] @Updates the size of alarm vector
 
 	ldmfd sp!, {r0-r1, lr}
 	mov pc, lr

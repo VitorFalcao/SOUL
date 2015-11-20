@@ -9,3 +9,8 @@
 
 @ Max numbers of alarm. Set in  RESET_HANDLER
 .set MAX_ALARMS, XXXXXXXX
+
+@ GPIO memory positions
+.set GPIO_BASE, 0x53F84000                                                  
+.set GPIO_GDIR, 0x4
+.set GPIO_PSR, 0x08         
