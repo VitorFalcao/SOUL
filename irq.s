@@ -1,5 +1,3 @@
-.include global.s
-
 IRQ_HANDLER:
 
     @Salva r0-r12 na pilha

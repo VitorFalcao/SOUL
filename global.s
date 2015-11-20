@@ -1,16 +1,24 @@
 @ Size of alarm vector  (endereco faltando)
-.set ALARM_VECTOR_SIZE, XXXXXXX
+.set ALARM_VECTOR_SIZE, ADDRES
 
 @ First position of alarm vector
-.set ALARM_VECTOR, XXXXXXX
+.set ALARM_VECTOR, ADDRESS
 
 @ System time
-.set TIME, 0x77801800
+.set TIME, ADDRESS
 
 @ Max numbers of alarm. Set in  RESET_HANDLER
-.set MAX_ALARMS, XXXXXXXX
 
 @ GPIO memory positions
 .set GPIO_BASE, 0x53F84000                                                  
-.set GPIO_GDIR, 0x4
-.set GPIO_PSR, 0x08         
+.set MAX_ALARMS, ENDERECO
+
+@ First position of the callback vector
+.set CALLBACK_VECTOR, ADDRESS
+
+@ Max number of callbacks. Set in RESET_HANDLER
+.set MAX_CALLBACKS, ADDRESS
+
+@ Size of callback vector
+.set CALLBACK_VECTOR_SIZE, ADDRESS
+
