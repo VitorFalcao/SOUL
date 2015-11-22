@@ -43,8 +43,6 @@ READ_SONAR:
     and r1, r1, r0
     str r1, [r2]
 
-    @ ZANE, AQUI NAO TA FALTANDO DESEMPILHAR O LR? FIQUEI NA DUVIDA, AI RESOLVI PERGUNTAR.
-
 @ Wait the flag become 1
 WAIT_FLAG:
     
