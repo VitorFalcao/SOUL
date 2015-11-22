@@ -45,6 +45,8 @@ loop_vector:
     b loop_vector
 
 loop_end:
+
+	@ TODO -> SORT VECTOR!
     
     @ Desempilha lr
 	ldmfd sp!, {lr}
@@ -67,8 +69,9 @@ call_function:
 
     msr CPSR_c, #0x10 @ Changes mode to User mode
 
-    mov pc, r0 @ Calls the user function
+    blx r0 @ Calls the user function
 
 	mov r7, #30 @ Special syscall
     svc 0x0 
+
 
