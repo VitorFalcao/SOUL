@@ -15,6 +15,7 @@ IRQ_HANDLER:
     str r2, [r1]
 
     bl SEARCH_ALARM
+    bl SEARCH_CALLBACK
   
     @Desempilha r0-r12
 	ldmfd sp!, {r1-r12, lr}
@@ -70,6 +71,8 @@ loop_end:
     mov pc, lr
 
 call_function:
+
+	@ TODO -> NEED TO FIND A WAY TO GO BACK TO SUPERVISOR MODE...
 	
 	stmfd sp!, {r0-r1, lr}
 
@@ -78,7 +81,7 @@ call_function:
 	@ Volta o modo para SUPERVISOR
 	msr CPSR_c, #0x13
 
-	ldr r1, =MAX_ALARMS @ Definido em global.s
+	ldr r1, =MAX_ALARMS @ Defined in global.s
 	ldr r0, [r1]
 
 	add r0, r0, #1
@@ -91,3 +94,5 @@ call_function:
 
 	ldmfd sp!, {r0-r1, lr}
 	mov pc, lr
+
+.include "callback.s"

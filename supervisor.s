@@ -4,7 +4,7 @@
 
 SUPERVISOR_HANDLER:
 	
-    @ Save the values of previous mode
+    @ Saves the values of previous mode
     stmfd sp!, {r1-r12}
 
 	cmp r7, #16
@@ -28,10 +28,10 @@ SUPERVISOR_HANDLER:
 	cmp r7, #22
 	bleq SET_ALARM
 
-    @Load the values of previous mode
+    @ Loads the values of previous mode
     ldmfd sp!, {r1-r12}
     movs pc, lr
-
+@ TODO -> REMOVE THE READ_SONAR! IT IS NOW IN A SEPARATE FILE: sonar.s
 READ_SONAR:
 
     stmfd sp!, {lr}
@@ -77,6 +77,8 @@ READ_SONAR:
     and r1, r1, r0
     str r1, [r2]
 
+    @ ZANE, AQUI NAO TA FALTANDO DESEMPILHAR O LR? FIQUEI NA DUVIDA, AI RESOLVI PERGUNTAR.
+
 @ Wait the flag become 1
 WAIT_FLAG:
     
@@ -120,6 +122,8 @@ INVALID_SONAR:
     ldmfd sp!, {pc}
 
 REGISTER_PROXIMITY_CALLBACK:
+	
+	stmfd sp!, {lr}
 
 	ldr r3, =MAX_CALLBACKS
 	ldr r4, [r3]
@@ -162,9 +166,9 @@ REGISTER_PROXIMITY_CALLBACK:
 	add r5, r5 #1
 	str r5, [r4]
 
-	mov r0, #0 @ Sets the return value		
+	mov r0, #0 @ Sets the return value	
 
-	movs pc, lr
+	ldmfd
 
 callback_full:
 
