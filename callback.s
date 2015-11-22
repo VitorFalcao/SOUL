@@ -46,3 +46,5 @@ loop_end:
 
 	ldmfd sp!, {r3-r12, lr}
 
+	movs pc, lr
+
