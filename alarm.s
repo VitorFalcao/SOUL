@@ -5,13 +5,13 @@ SEARCH_ALARM_CONTINUE:
 
 ORGANIZE_VECTOR:
 
-    @ Jump to the current alarm time postion
+    @ Move to r0 the current alarm time postion
     add r0, r3, r4
+    sub r1, r1, #1
 
 @ At the point where the alarm was found, move every data in the vector one position back
 loop_vector2:
-    
-    sub r1, r1 -1
+
     cmp r2, r1
     bge loop_end2
 
