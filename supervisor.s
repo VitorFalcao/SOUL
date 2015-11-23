@@ -4,6 +4,8 @@
 
 SUPERVISOR_HANDLER:
 
+	msr CPSR_c, #0x13 @ Enables interruptions
+
 	cmp r7, #16
 	beq READ_SONAR
 	
@@ -35,6 +37,11 @@ REGISTER_PROXIMITY_CALLBACK:
 	ldr r3, =MAX_CALLBACKS
 	ldr r4, [r3]
 
+	ldr r3, =CALLBACK_VECTOR_SIZE
+	ldr r5, [r3]
+
+	sub r4, r4, r5
+
 	cmp r4, #0
 	beq callback_full
 
@@ -46,10 +53,6 @@ REGISTER_PROXIMITY_CALLBACK:
 	cmp r4, r0
 	blt invalid_sonar_id
 	
-	@ Updates the number of MAX_CALLBACKS
-	add r4, r4, #1
-	str r4, [r3]
-
 	@@
 	@ Saves the callback
 	@@
@@ -237,6 +240,11 @@ SET_ALARM:
 	@ Loads the number of MAX_ALARMS, which decreases every time a new alarm is added.
 	ldr r2, =MAX_ALARMS
 	ldr r3, [r2]
+	
+	ldr r2, =ALARM_VECTOR_SIZE
+	ldr r4, [r2]
+
+	sub r3, r3, r4
 
 	cmp r3, #0
 	beq alarm_full
@@ -245,11 +253,7 @@ SET_ALARM:
     ldr r8, [r6]
 	cmp r1, r8
 
-	bl invalid_time
-	
-	@ Updates the number of MAX_ALARMS
-	sub r3, r3, #1
-	str r3, [r2]
+	bl invalid_time	
 	
 	@@
 	@ SAVES TIME AND FUNCTION POINTER ON STACK

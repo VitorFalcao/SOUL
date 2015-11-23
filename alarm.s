@@ -34,7 +34,7 @@ SEARCH_ALARM:
 	ldr r0, [r0]
 	
 	@ Carrega em r1 o tamanho do vetor
-    ldr r0, =ALARM_VECTOR_SZ
+    ldr r0, =ALARM_VECTOR_SIZE
     ldr r1, [r0]
     mov r2, #0
 	ldr r3, =ALARM_VECTOR
@@ -84,13 +84,7 @@ call_function:
 
     ldmfd sp!, {r0-r3}
 
-	ldr r1, =MAX_ALARMS @ Defined in global.s
-	ldr r0, [r1]
-
-	add r0, r0, #1
-	str r0, [r1] @ Updates the number of available alarms
-
-    ldr r1 =ALARM_VECTOR_SZ
+    ldr r1 =ALARM_VECTOR_SIZE
     ldr r0, [r1]
     sub r0, r0, #1
     str r0, [r1] @ Updates the size of alarm vector

@@ -15,9 +15,12 @@
 	ALARM_VECTOR:
 		.skip 8*MAX_ALARMS
 	
-	CALLBACKS_VECTOR_SIZE:
+	CALLBACK_VECTOR_SIZE:
 		.word 0
 
-	CALLBACKS_VECTOR:
+	CALLBACK_VECTOR:
 		.skip 8*MAX_CALLBACKS
+
+	STACK_BASE:
+		.skip 4096
                                                  

@@ -27,9 +27,6 @@ RESET_HANDLER:
     mov r0, #0
     str r0, [r2]	
 
-	@ Each stack will have 4096 bytes
-	.set STACK_BASE, ADDRESS
-
 	ldr r0, =STACK_BASE
 
 	msr CPSR_c, #0x12
