@@ -22,5 +22,3 @@
 @ Size of callback vector
 .set CALLBACK_VECTOR_SIZE, ADDRESS
 
-@ Sets the address of the flag used to control de loop of the alarm callbacks
-.set ALARM_CALLBACK_LOOP_FLAG, ADDRESS

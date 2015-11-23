@@ -28,8 +28,11 @@ SUPERVISOR_HANDLER:
 	cmp r7, #22
 	bleq SET_ALARM
 
-	cmp r7, #30 @ Special syscall to continue looping through the alarm vector
+	cmp r7, #30 @ Special syscall to continue looping through the ALARM vector
 	bleq SEARCH_ALARM_CONTINUE
+
+	cmp r7, #31 @ Special syscall to continue looping through the CALLBACK vector
+	bleq SEARCH_CALLBACK_CONTINUE
 
     @ Loads the values of previous mode
     ldmfd sp!, {r1-r12}

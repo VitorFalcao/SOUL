@@ -36,11 +36,6 @@ RESET_HANDLER:
 	ldr r0, =MAX_ALARMS
 	mov r1, #8
 	str r1, [r0]
-	
-	@ Set the ALARM_CALLBACK_LOOP_FLAG to 0
-	ldr r0, =ALARM_CALLBACK_LOOP_FLAG
-	mov r1, #0
-	str r1, [r0]
 
 	@ Each stack will have 4096 bytes
 	.set STACK_BASE, ADDRESS

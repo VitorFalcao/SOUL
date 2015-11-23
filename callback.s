@@ -1,6 +1,12 @@
+SEARCH_CALLBAK_CONTINUE:
+
+	ldmfd sp!, {r1-r4}
+
+	b loop
+
 SEARCH_CALLBACK:
 
-	stmfd sp!, {r3-r12, lr}
+	stmfd sp!, {lr}
 
 	ldr r1, =CALLBACK_VECTOR
 	
@@ -31,20 +37,23 @@ loop:
 	
 	b loop
 
-call_function;
-
-	add r6, r6, #4 @ Sets the vector offset to get the callback address
+call_function:
 	
-	@ TODO -> MUST CALL IT IN USER MODE!
-	mov pc, r5
+	stmfd sp!, {r1-r4} @ Saves the loop current state
 
-	@ TODO -> UPDATE VECTOR SIZE AND SORT VECTOR!
+	add r6, r6, #4 @ Sets the vector offset to get the callback address	
+	
+	msr CPSR_c, #0x10
+	blx r6
 
-	@ TODO -> RETURN TO LOOP!
+	mov r7, #31
+	svc 0x0
 
 loop_end:
 
-	ldmfd sp!, {r3-r12, lr}
+	@ TODO -> SORT VECTOR!!!
 
-	movs pc, lr
+	ldmfd sp!, {lr}
+
+	mov pc, lr
 
