@@ -102,9 +102,8 @@ SET_MOTOR_SPEED:
     cmp r1, #0
     blt INVALID_SPEED
 
-    @ Move to r3 the address of PSR
+    @ Move to r3 the address of DR
     ldr r3, =GPIO_BASE
-    add r3, r3, #8
     ldr r4, [r3]
 
     @ Go to the right motor function, if it's not 0 or 1 then it's invalid

@@ -2,11 +2,9 @@ READ_SONAR:
 
     stmfd sp!, {lr}
 
-    @ Move to r2 address of PSR, load the value, and then move to r2 address of DR
+    @ Move to r2 address of DR
     ldr r2, =GPIO_BASE
-    add r2, r2, #8
     ldr r1, [r2]
-    sub r2, r2, #8
 
     cmp r0, #15
     bgt INVALID_SONAR
