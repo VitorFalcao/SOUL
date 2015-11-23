@@ -2,6 +2,9 @@ IRQ_HANDLER:
 
     @Salva r0-r12 na pilha
 	stmfd sp!, {r0-r12, lr}
+
+	mrs r0, SPSR
+	stmfd sp!, {r0} @ Saves SPSR
  
     @ Coloca 0x1 no GPT_SR
     mov r1, #0x1
@@ -14,15 +17,13 @@ IRQ_HANDLER:
     add r2, r2, #1
     str r2, [r1]
 
+    msr CPSR_c, #0x10 @ Switches to USER mode
+
     bl SEARCH_ALARM
     bl SEARCH_CALLBACK
-  
-    @ Desempilha r0-r12
-	ldmfd sp!, {r0-r12, lr}
 
-    @ Retorna da interrupcao
-    sub lr, lr, #4
-    movs pc, lr
+    mov r7, #30
+    svc 0x0 
 
 .include "alarm.s"
 .include "callback.s"

@@ -1,9 +1,3 @@
-SEARCH_CALLBAK_CONTINUE:
-
-	ldmfd sp!, {r1-r4}
-
-	b loop
-
 SEARCH_CALLBACK:
 
 	stmfd sp!, {lr}
@@ -31,7 +25,7 @@ loop:
 	add r6, r6, #4 @ Sets the vector offset to get the distance saved
 
 	cmp r6, r0
-	beq call_function
+	bleq call_function
 
 	add r4, r4, #1
 	
@@ -39,21 +33,18 @@ loop:
 
 call_function:
 	
-	stmfd sp!, {r1-r4} @ Saves the loop current state
+	stmfd sp!, {r1-r4, lr} @ Saves the loop current state
 
 	add r6, r6, #4 @ Sets the vector offset to get the callback address	
 	
-	msr CPSR_c, #0x10
+	msr CPSR_c, #0x10 @ Switches to USER mode
 	blx r6
 
-	mov r7, #31
-	svc 0x0
+	ldmfd sp!, {r1-r4, lr}
+	mov pc, lr
 
 loop_end:
 
-	@ TODO -> SORT VECTOR!!!
-
 	ldmfd sp!, {lr}
-
 	mov pc, lr
 

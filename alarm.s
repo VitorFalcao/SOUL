@@ -1,8 +1,3 @@
-SEARCH_ALARM_CONTINUE:
-
-    @ Back to the loop position
-    ldmfd sp!, {pc}
-
 ORGANIZE_VECTOR:
 
     @ Move to r0 the current alarm time postion
@@ -74,8 +69,6 @@ loop_vector:
     b loop_vector
 
 loop_end:
-
-	@ TODO -> SORT VECTOR!
     
     @ Desempilha lr
 	ldmfd sp!, {r4-r7, lr}
@@ -83,7 +76,9 @@ loop_end:
 
 call_function:
 	
-	stmfd sp!, {r0-r3, lr} @ Saves the current loop position and state
+	@ Saves the current loop position and state
+	stmfd sp!, {lr}	
+	stmfd sp!, {r0-r3}
 
     bl ORGANIZE_VECTOR
 
@@ -100,10 +95,7 @@ call_function:
     sub r0, r0, #1
     str r0, [r1] @ Updates the size of alarm vector
 
-    msr CPSR_c, #0x10 @ Changes mode to User mode
-
     blx r0 @ Calls the user function
 
-	mov r7, #30 @ Special syscall
-    svc 0x0 
-
+    ldmfd sp!, {lr}
+	mov pc, lr

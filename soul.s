@@ -23,19 +23,9 @@ RESET_HANDLER:
     mcr p15, 0, r0, c12, c0, 0
 
 	@ Zera o contador
-    ldr r2, =TIME  @lembre-se de declarar esse contador em uma secao de dados! 
+    ldr r2, =TIME  @ Lembre-se de declarar esse contador em uma secao de dados! 
     mov r0, #0
     str r0, [r2]	
-
-	@ Set MAX_CALLBACKS to 8
-	ldr r0, =MAX_CALLBACKS
-	mov r1, #8
-	str r1, [r0]
-
-	@ Set MAX_ALARMS to 8
-	ldr r0, =MAX_ALARMS
-	mov r1, #8
-	str r1, [r0]
 
 	@ Each stack will have 4096 bytes
 	.set STACK_BASE, ADDRESS

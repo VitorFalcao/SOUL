@@ -3,44 +3,34 @@
 .set SONAR_DATA_MASK, 0x0003FFC0
 
 SUPERVISOR_HANDLER:
-	
-    @ Saves the values of previous mode
-    stmfd sp!, {r1-r12}
 
 	cmp r7, #16
-	bleq READ_SONAR
+	beq READ_SONAR
 	
 	cmp r7, #17
-	bleq REGISTER_PROXIMITY_CALLBACK
+	beq REGISTER_PROXIMITY_CALLBACK
 	
 	cmp r7, #18
-	bleq SET_MOTOR_SPEED
+	beq SET_MOTOR_SPEED
 
 	cmp r7, #19
-	bleq SET_MOTORS_SPEED
+	beq SET_MOTORS_SPEED
 
 	cmp r7, #20
-	bleq GET_TIME
+	beq GET_TIME
 	
 	cmp r7, #21
-	bleq SET_TIME
+	beq SET_TIME
 
 	cmp r7, #22
-	bleq SET_ALARM
+	beq SET_ALARM
 
-	cmp r7, #30 @ Special syscall to continue looping through the ALARM vector
-	bleq SEARCH_ALARM_CONTINUE
-
-	cmp r7, #31 @ Special syscall to continue looping through the CALLBACK vector
-	bleq SEARCH_CALLBACK_CONTINUE
-
-    @ Loads the values of previous mode
-    ldmfd sp!, {r1-r12}
-    movs pc, lr
+	cmp r7, #30 @ Special syscall to return to user mode restoring SPSR
+	beq RETURN
 
 REGISTER_PROXIMITY_CALLBACK:
 	
-	stmfd sp!, {lr}
+	stmfd sp!, {r3-r12, lr}
 
 	ldr r3, =MAX_CALLBACKS
 	ldr r4, [r3]
@@ -85,21 +75,26 @@ REGISTER_PROXIMITY_CALLBACK:
 
 	mov r0, #0 @ Sets the return value	
 
-	ldmfd
+	ldmfd sp!, {r3-r12, lr}
+	movs pc, lr
 
 callback_full:
 
 	@ Returns -1 on r0
+	ldmfd sp!, {r3-r12, lr}
 	mov r0, #-1
 	movs pc, lr
 
 invalid_sonar_id:
 
 	@ Returns -2 on r0
+	ldmfd sp!, {r3-r12, lr}
 	mov r0, #-2
 	movs pc, lr
 
 SET_MOTOR_SPEED:
+
+	stmfd sp!, {r2-r12, lr}
 
     @ If speed is less than zero, it's an invalid speed
     cmp r1, #0
@@ -112,8 +107,10 @@ SET_MOTOR_SPEED:
     @ Go to the right motor function, if it's not 0 or 1 then it's invalid
     cmp r0, #0
     beq MOTOR0
+
     cmp r0, #1
     beq MOTOR1
+    
     b INVALID_MOTOR
 
 MOTOR0:
@@ -145,7 +142,8 @@ MOTOR0:
     
     mov r0, #0
 
-    mov pc, lr
+	ldmfd sp!, {r2-r12, lr}
+    movs pc, lr
 
 MOTOR1:
 
@@ -171,22 +169,25 @@ MOTOR1:
     str r4, [r3]
     
     mov r0, #0
-
-    mov pc, lr
+	
+	ldmfd sp!, {r2-r12, lr}
+    movs pc, lr
 
 INVALID_MOTOR:
     
+    ldmfd sp!, {r2-r12, lr}
     mov r0, #-1
-    mov pc, lr
+    movs pc, lr
 
 INVALID_SPEED:
-    
+	
+	ldmfd sp!, {r2-r12, lr}
     mov r0, #-2
-    mov pc, lr
+    movs pc, lr
 
 SET_MOTORS_SPEED:
 
-    stmfd sp!, {lr}
+    stmfd sp!, {r2-r12, lr}
 
     @ Save the speeds
     mov r5, r0
@@ -206,28 +207,32 @@ SET_MOTORS_SPEED:
     mov r1, r6
     bl SET_SPEED_MOTOR
 
-    ldmfd sp!, {pc}
+    ldmfd sp!, {r2-r12, lr}
+    movs pc, lr
 
 MOTOR0_INVALID_SPEED
-    
+	
+	ldmfd sp!, {r2-r12, lr}
     mov r0, #-2
-    ldmfd sp!, {pc}
+    movs pc, lr
 
 GET_TIME:
 	
 	ldr r1, =TIME
 	ldr r0, [r1]
 	
-	mov pc, lr
+	movs pc, lr
 
 SET_TIME:
 
 	ldr r1, =TIME
 	str r0, [r1]
 
-	mov pc, lr
+	movs pc, lr
 
 SET_ALARM:
+
+	stmfd sp!, {r2-r12, lr}
 	
 	@ Loads the number of MAX_ALARMS, which decreases every time a new alarm is added.
 	ldr r2, =MAX_ALARMS
@@ -269,16 +274,27 @@ SET_ALARM:
 	add r4, r4, #1
 	str r4, [r3] 
 
-	mov pc, lr
+	ldmfd sp!, {r2-r12, lr}
+	movs pc, lr
 
 alarm_full:
 
 	@ Returns -1 in r0
 	mov r0, #-1
-	mov pc, lr
+	movs pc, lr
 
 invalid_time:
 
 	@ Returns -2 in r0	
 	mov r0, #-2
-	mov pc, lr
+	movs pc, lr
+
+RETURN:
+
+	ldmfd sp!, {r0} @ SPSR
+	msr SPSR, r0
+
+	ldmfd sp!, {r0-r12, lr}
+
+	sub lr, lr, #4
+	movs pc, lr
