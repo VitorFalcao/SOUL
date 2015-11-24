@@ -73,7 +73,7 @@ REGISTER_PROXIMITY_CALLBACK:
 	str r2, [r3, #12] @ Saves the function address (callback)
 	
 	@ Updates the CALLBACK_VECTOR_SIZE
-	add r5, r5 #1
+	add r5, r5, #1
 	str r5, [r4]
 
 	mov r0, #0 @ Sets the return value	
@@ -199,7 +199,7 @@ SET_MOTORS_SPEED:
     @ Write motor 0 speed
     mov r0, #0
     mov r1, r5
-    bl SET_SPEED_MOTOR
+    bl SET_MOTOR_SPEED
 
     @ If MOTOR0 speed is invalid go to MOTOR0_INVALID_SPEED
     cmp r0, #-2
@@ -208,12 +208,12 @@ SET_MOTORS_SPEED:
     @ Write motor 1 speed
     mov r0, #1
     mov r1, r6
-    bl SET_SPEED_MOTOR
+    bl SET_MOTOR_SPEED
 
     ldmfd sp!, {r2-r12, lr}
     movs pc, lr
 
-MOTOR0_INVALID_SPEED
+MOTOR0_INVALID_SPEED:
 	
 	ldmfd sp!, {r2-r12, lr}
     mov r0, #-2

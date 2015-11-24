@@ -26,25 +26,28 @@ RESET_HANDLER:
     ldr r2, =TIME  @ Lembre-se de declarar esse contador em uma secao de dados! 
     mov r0, #0
     str r0, [r2]	
-
-	ldr r0, =STACK_BASE
+	
+	@ldr r0, =STACK_BASE
 
 	msr CPSR_c, #0x12
-	mov sp, r0 @ Set irq mode SP
+	@mov sp, r0 @ Set irq mode SP
+	ldr sp, =STACK_BASE 	
 
-	msr CPSR_c, #0x11
-	add r0, r0, #0x2000
-	mov sp, r0 @ Set user mode SP
+	msr CPSR_c, #0x1F
+	@add r0, r0, #0x2000
+	ldr sp, =STACK_FODASE @ Set user mode SP
 
-	msr CPSR_C, #0x13
-	add r0, r0, #0x2000
-	mov sp, r0 @ Set supervisor mode SP
+	msr CPSR_c, #0x13
+	@add r0, r0, #0x2000
+	ldr sp, =STACK_PORRA @ Set supervisor mode SP
 
 	bl SET_GPIO	
 	bl SET_GPT
 	bl SET_TZIC
 	
-	b 0x77802000 @ User program _start address
+	.set USER_PROGRAM, 0x77802000	
+	
+	ldr pc, =USER_PROGRAM @ User program _start address
 
 @ Inclui os arquivos de configuracao dos registradores GPIO, GPT, TZIC
 .align 4 
@@ -63,3 +66,6 @@ RESET_HANDLER:
 .align 4
 .include "irq.s"
 
+@ Include ...
+.align 4
+.include "sonar.s"

@@ -12,7 +12,7 @@ SEARCH_CALLBACK:
 loop:
 
 	cmp r4, r3
-	beq loop_end
+	beq callback_loop_end
 
 	mov r5, #12
 
@@ -25,13 +25,13 @@ loop:
 	add r6, r6, #4 @ Sets the vector offset to get the distance saved
 
 	cmp r6, r0
-	bleq call_function
+	bleq call_function_callback
 
 	add r4, r4, #1
 	
 	b loop
 
-call_function:
+call_function_callback:
 	
 	stmfd sp!, {r1-r4, lr} @ Saves the loop current state
 
@@ -43,7 +43,7 @@ call_function:
 	ldmfd sp!, {r1-r4, lr}
 	mov pc, lr
 
-loop_end:
+callback_loop_end:
 
 	ldmfd sp!, {lr}
 	mov pc, lr

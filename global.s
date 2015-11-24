@@ -4,6 +4,10 @@
 @ GPIO memory positions
 .set GPIO_BASE, 0x53F84000 
 
+.set STACK_BASE, 0x7600000
+.set STACK_FODASE, 0x76002000
+.set STACK_PORRA, 0x76004000
+
 .data
 
 	TIME:
@@ -21,6 +25,3 @@
 	CALLBACK_VECTOR:
 		.skip 8*MAX_CALLBACKS
 
-	STACK_BASE:
-		.skip 4096
-                                                 

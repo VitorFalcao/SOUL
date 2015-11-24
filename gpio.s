@@ -1,4 +1,3 @@
-.include global.s
 @@
 @	Configura a GPIO, especificamente o registrador GDIR.	
 @@

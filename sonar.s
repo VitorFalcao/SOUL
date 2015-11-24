@@ -13,10 +13,10 @@ READ_SONAR:
     blt INVALID_SONAR
 
     @ Change the bits of sonar_mux to read the right sonar
-    mul r0, r0, #4
+	lsl r0, #2
     orr r1, r1, r0
     mvn r0, r0
-    mul r0, r0, #4
+    lsl r0, #2
     and r1, r1, r0 
     str r1, [r2]
 
@@ -62,7 +62,8 @@ WAIT_FLAG:
 FLAG_1:
 
     @ Get the value of SONAR_DATA and return it
-    mov r0, #SONAR_DATA_MASK
+	ldr r0, =SONAR_DATA_MASK
+	ldr r0, [r0]
     and r0, r0, r1
     lsr r0, r0, #6
 
