@@ -1,5 +1,5 @@
 IRQ_HANDLER:
-
+	
     @Salva r0-r12 na pilha
 	stmfd sp!, {r0-r12, lr}
 
