@@ -295,10 +295,12 @@ invalid_time:
 
 RETURN:
 
-	@ Previous SPSR comes as argument
+	msr CPSR_c, #0x12 @ Changes to IRQ mode to
+	
+	ldmfd sp!, {r0} @ Loads SPSR
 	msr SPSR, r0
 
 	ldmfd sp!, {r0-r12, lr}
 
 	sub lr, lr, #4
-	movs pc, lr
+	movs pc, lr @ Moves back to the mode previous to the interruption on IRQ

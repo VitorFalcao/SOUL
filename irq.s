@@ -22,7 +22,6 @@ IRQ_HANDLER:
     bl SEARCH_ALARM
     bl SEARCH_CALLBACK
 	
-	ldmfd sp!, {r0} @ Loads SPSR as svc argument
     mov r7, #30
     svc 0x0 
 
