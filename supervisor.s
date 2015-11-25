@@ -1,7 +1,9 @@
 .set FLAG_MASK, 0x00000001
-.set TRIGGER_MASK, 0x00000002
+.set TRIGGER_MASK, 0xFFFFFFFD
 .set SONAR_DATA_MASK, 0x0003FFC0
-
+.set MOTOR1_MASK, 0x01FFFFFF
+.set MOTOR0_MASK, 0xFE03FFFF
+.set SONAR_MUX_MASK, 0xFFFFFFC3
 SUPERVISOR_HANDLER:
 
 	msr CPSR_c, #0x13 @ Enables interruptions
@@ -118,31 +120,13 @@ SET_MOTOR_SPEED:
 
 MOTOR0:
 
-    @ Move to r3 the address of DR
-    sub r3, r3, #8
-
-    @ Change to 1 the bit that allow writing the speed
-    mov r2, #1
-    lsl r2, r2, #18
-    orr r4, r2
-    str r4, [r3]
-
     @ Set the motor zero speed in to DR
     lsl r1, r1, #19
-    orr r4, r4, r1
-    mvn r1, r1
-    lsl r1, r1, #19
-    mvn r1, r1
-    and r4, r4, r1
+	ldr r2, =MOTOR0_MASK
+	and r4, r4, r2
+	orr r4, r4, r1
     str r4, [r3]
 
-    @ Return to 0 the bit tha allow writing the speed
-    mov r2, #1
-    lsl r2, r2, #18
-    mvn r2, r2
-    and r4, r4, r2
-    str r4, [r3]
-    
     mov r0, #0
 
 	ldmfd sp!, {r2-r12, lr}
@@ -150,27 +134,13 @@ MOTOR0:
 
 MOTOR1:
 
-    @ Change to 1 the bit that allow writing the speed
-    mov r2, #1
-    lsl r2, r2, #25
-    orr r4, r2
-
-    @ Set the motor zero speed in to DR
+  	@ Set the motor 1 speed in to DR
     lsl r1, r1, #26
-    orr r4, r4, r1
-    mvn r1, r1
-    lsl r1, r1, #26
-    mvn r1, r1
-    and r4, r4, r1
+    ldr r2, =MOTOR1_MASK
+	and r4, r4, r2
+	orr r4, r4, r1
     str r4, [r3]
 
-    @ Return to 0 the bit tha allow writing the speed
-    mov r2, #1
-    lsl r2, r2, #25
-    mvn r2, r2
-    and r4, r4, r2
-    str r4, [r3]
-    
     mov r0, #0
 	
 	ldmfd sp!, {r2-r12, lr}
@@ -191,24 +161,31 @@ INVALID_SPEED:
 SET_MOTORS_SPEED:
 
     stmfd sp!, {r2-r12, lr}
+	
+	@ Move to r3 the address of DR
+    ldr r3, =GPIO_BASE
+    ldr r4, [r3]
 
-    @ Save the speeds
-    mov r5, r0
-    mov r6, r1
-    
-    @ Write motor 0 speed
-    mov r0, #0
-    mov r1, r5
-    bl SET_MOTOR_SPEED
+	@ If speed is less than zero, it's an invalid speed
+    cmp r1, #0
+    blt INVALID_SPEED
 
-    @ If MOTOR0 speed is invalid go to MOTOR0_INVALID_SPEED
-    cmp r0, #-2
-    beq MOTOR0_INVALID_SPEED
+	@ If speed is less than zero, it's an invalid speed
+    cmp r0, #0
+    blt MOTOR0_INVALID_SPEED
 
-    @ Write motor 1 speed
-    mov r0, #1
-    mov r1, r6
-    bl SET_MOTOR_SPEED
+	@ Set the motor zero speed in to DR
+    lsl r0, r0, #19
+	ldr r2, =MOTOR0_MASK
+	and r4, r4, r2
+	orr r4, r4, r0
+
+  	@ Set the motor 1 speed in to DR
+    lsl r1, r1, #26
+    ldr r2, =MOTOR1_MASK
+	and r4, r4, r2
+	orr r4, r4, r1
+    str r4, [r3]
 
     ldmfd sp!, {r2-r12, lr}
     movs pc, lr

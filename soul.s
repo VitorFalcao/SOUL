@@ -35,11 +35,11 @@ RESET_HANDLER:
 
 	msr CPSR_c, #0x1F
 	@add r0, r0, #0x2000
-	ldr sp, =STACK_FODASE @ Set user mode SP
+	ldr sp, =STACK_USER @ Set user mode SP
 
 	msr CPSR_c, #0x13
 	@add r0, r0, #0x2000
-	ldr sp, =STACK_PORRA @ Set supervisor mode SP
+	ldr sp, =STACK_SUPERVISOR @ Set supervisor mode SP
 
 	bl SET_GPIO	
 	bl SET_GPT

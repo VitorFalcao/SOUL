@@ -20,12 +20,13 @@
 
 	CALLBACK_VECTOR:
 		.skip 8*MAX_CALLBACKS
-	
+
+		.fill 1024	
 	STACK_BASE:
 		.fill 1024
 
-	STACK_FODASE:
+	STACK_USER:
 		.fill 1024
 
-	STACK_PORRA:
+	STACK_SUPERVISOR:
 		.fill 1024
