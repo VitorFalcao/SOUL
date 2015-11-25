@@ -45,8 +45,9 @@ RESET_HANDLER:
 	bl SET_GPT
 	bl SET_TZIC
 	
-	.set USER_PROGRAM, 0x77802000	
-	
+	.set USER_PROGRAM, 0x77802000
+
+	msr CPSR_c, #0x10	
 	ldr pc, =USER_PROGRAM @ User program _start address
 
 @ Inclui os arquivos de configuracao dos registradores GPIO, GPT, TZIC
