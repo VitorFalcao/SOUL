@@ -295,7 +295,7 @@ invalid_time:
 
 RETURN:
 
-	ldmfd sp!, {r0} @ SPSR
+	@ Previous SPSR comes as argument
 	msr SPSR, r0
 
 	ldmfd sp!, {r0-r12, lr}
