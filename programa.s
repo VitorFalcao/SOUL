@@ -4,14 +4,14 @@
 
 _start:
 
-	b teste
-	@mov r1, #20
-	@mov r7, #22
-	@svc 0x0
-	@ldr r0, =FUNCAO_2
-	@mov r1, #800
-	@svc 0x0
-	@b loop_DOIDAO
+	ldr r0, =FUNCAO
+	mov r1, #20
+	mov r7, #22
+	svc 0x0
+	ldr r0, =FUNCAO_2
+	mov r1, #800
+	svc 0x0
+	b loop_DOIDAO
 
 FUNCAO:
 	stmfd sp!, {r0-r12, lr}
@@ -20,7 +20,7 @@ FUNCAO:
 	mov r7, #18
 	svc 0x0
 	ldmfd sp!, {r0-r12, lr}
-	b loop
+	mov pc, lr
 
 FUNCAO_2:
 	stmfd sp!, {r0-r12, lr}
@@ -29,27 +29,27 @@ FUNCAO_2:
 	mov r7, #19
 	svc 0x0	
 	ldmfd sp!, {r0-r12, lr}
-	b funcao
+	mov pc, lr
 
 loop_DOIDAO:
 	b loop_DOIDAO
 
-teste:
-	mov r0, #10
-	mov r1, #10
-	mov r7, #19
-	svc 0x0
-funcao:
-	mov r0, #3
-	mov r7, #16
-	svc 0x0
-	cmp r0, #1200
-	bhi funcao
-retorno:
-	mov r0, #1
-	mov r1, #0
-	mov r7, #18
-	svc 0x0
-loop:
-	b loop
+@teste:
+@	mov r0, #10
+@	mov r1, #10
+@	mov r7, #19
+@	svc 0x0
+@funcao:
+@	mov r0, #3
+@	mov r7, #16
+@	svc 0x0
+@	cmp r0, #1200
+@	bhi funcao
+@retorno:
+@	mov r0, #1
+@	mov r1, #0
+@	mov r7, #18
+@	svc 0x0
+@loop:
+@	b loop
 	

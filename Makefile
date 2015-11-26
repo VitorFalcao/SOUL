@@ -37,10 +37,10 @@ soul: $(SOUL_OBJS)
 	$(LD) $^ -o $@ $(LD_FLAGS) --section-start=.iv=0x778005e0 -Ttext=0x77800700 -Tdata=0x77801800 -e 0x778005e0
 
 ronda.x: ronda.o api_robot2.o
-	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77802000
+	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77803000
 
 programa: programa.o
-	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77802000
+	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77803000
 
 programa.o: programa.s
 	arm-eabi-as -g programa.s -o programa.o
