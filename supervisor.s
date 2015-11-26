@@ -4,9 +4,16 @@
 .set MOTOR1_MASK, 0x01FFFFFF
 .set MOTOR0_MASK, 0xFE03FFFF
 .set SONAR_MUX_MASK, 0xFFFFFFC3
+.set INTERRUPTIONS_MASK, 0xFFFFFF3F
+
 SUPERVISOR_HANDLER:
 
-	msr CPSR_c, #0x13 @ Enables interruptions
+	stmfd sp!, {r0,r1}
+	mrs r0, CPSR
+	ldr r1, =INTERRUPTIONS_MASK
+	and r0, r1
+	msr CPSR, r0
+	ldmfd sp!, {r0,r1}
 
 	cmp r7, #16
 	beq READ_SONAR

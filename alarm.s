@@ -78,7 +78,10 @@ call_function_alarm:
 	stmfd sp!, {lr}	
 	stmfd sp!, {r0-r3}
 
-   @ bl ORGANIZE_VECTOR @ TA COM ERRO! REVISAR!!!
+	ldr r0, [r0]
+    blx r0 @ Calls the user function
+
+   	bl ORGANIZE_VECTOR @ TA COM ERRO! REVISAR!!!
 
     ldr r1, =ALARM_VECTOR_SIZE
     ldr r0, [r1]
@@ -87,8 +90,5 @@ call_function_alarm:
 
 	ldmfd sp!, {r0-r3}
 
-	ldr r0, [r0]
-    blx r0 @ Calls the user function
-
-    ldmfd sp!, {lr}
+	ldmfd sp!, {lr}
 	mov pc, lr

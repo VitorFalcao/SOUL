@@ -1,6 +1,6 @@
 READ_SONAR:
 
-    stmfd sp!, {lr}
+    stmfd sp!, {r1-r12,lr}
 
     @ Move to r2 address of DR
     ldr r2, =GPIO_BASE
@@ -63,7 +63,8 @@ FLAG_1:
     and r0, r0, r1
     lsr r0, r0, #6
 
-    ldmfd sp!, {pc}
+    ldmfd sp!, {r1-r12, lr}
+	movs pc, lr
 
 @ Delay executing the loop r3 value times
 DELAY:
@@ -82,5 +83,6 @@ END_DELAY:
 INVALID_SONAR:
 
     mov r0, #-1
-    ldmfd sp!, {pc}
+    ldmfd sp!, {r1-r12, lr}
+	movs pc, lr
 
