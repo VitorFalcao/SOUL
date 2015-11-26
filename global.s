@@ -23,10 +23,9 @@
 
 		.fill 1024	
 	STACK_BASE:
-		.fill 1024
 
+		.fill 1024
 	STACK_USER:
+		
 		.fill 1024
-
 	STACK_SUPERVISOR:
-		.fill 1024

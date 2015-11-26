@@ -49,7 +49,7 @@ loop_vector:
 
     @ Carrega em r7 o tempo atual
     ldr r6, =TIME
-   ldr r7, [r4]
+   	ldr r7, [r6]
     
     @ Se o tempo do alarme for igual ao tempo atual vai para a funcao referente 
     @ Salvar r0-r3 na pilha
@@ -78,15 +78,16 @@ call_function_alarm:
 	stmfd sp!, {lr}	
 	stmfd sp!, {r0-r3}
 
-    bl ORGANIZE_VECTOR
-
-    ldmfd sp!, {r0-r3}
+   @ bl ORGANIZE_VECTOR @ TA COM ERRO! REVISAR!!!
 
     ldr r1, =ALARM_VECTOR_SIZE
     ldr r0, [r1]
     sub r0, r0, #1
     str r0, [r1] @ Updates the size of alarm vector
 
+	ldmfd sp!, {r0-r3}
+
+	ldr r0, [r0]
     blx r0 @ Calls the user function
 
     ldmfd sp!, {lr}

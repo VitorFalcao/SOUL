@@ -33,20 +33,20 @@ all: disk.img
 
 # ----------------------------------
 # Specific Rules
-soul.x: $(SOUL_OBJS)
+soul: $(SOUL_OBJS)
 	$(LD) $^ -o $@ $(LD_FLAGS) --section-start=.iv=0x778005e0 -Ttext=0x77800700 -Tdata=0x77801800 -e 0x778005e0
 
 ronda.x: ronda.o api_robot2.o
 	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77802000
 
-programa.x: programa.o
+programa: programa.o
 	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77802000
 
 programa.o: programa.s
-	arm-eabi-as programa.s -o programa.o
+	arm-eabi-as -g programa.s -o programa.o
 
-disk.img: soul.x programa.x
-	mksd.sh --so soul.x --user programa.x
+disk.img: soul programa
+	mksd.sh --so soul --user programa
 
 clean:
-	rm -f soul.x programa.x disk.img *.o
+	rm -f soul programa disk.img *.o

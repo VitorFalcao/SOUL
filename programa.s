@@ -4,28 +4,32 @@
 
 _start:
 
-	b loop
-	mov r0, #20
+	ldr r0, =FUNCAO
 	mov r1, #20
+	mov r7, #22
+	svc 0x0
+	@ldr r0, =FUNCAO_2
+	@mov r1, #800
+	@svc 0x0
+	b loop_DOIDAO
+
+FUNCAO:
+	stmfd sp!, {r0-r12, lr}
+	mov r0, #10
+	mov r1, #10
 	mov r7, #19
 	svc 0x0
-	b loop
+	ldmfd sp!, {r0-r12, lr}
+	mov pc, lr	
 
-loop:
-	mov r0, #3
-	mov r7, #16
-	svc 0x0	
-retorno:
-	
-	cmp r0, #1200
-	blt vira	
-	b loop
+@FUNCAO_2:
+@	stmfd sp!, {r0-r12, lr}
+@	mov r0, #20
+@	mov r1, #0
+@	mov r7, #19
+@	svc 0x0	
+@	ldmfd sp!, {r0-r12, lr}
+@	mov pc, lr
 
-vira:
-	mov r0, #20
-	mov r1, #0
-	mov r7, #19
-	svc 0x0
-	b loop2
-loop2:
-	b loop2
+loop_DOIDAO:
+	b loop_DOIDAO

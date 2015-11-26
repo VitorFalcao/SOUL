@@ -67,13 +67,16 @@ FLAG_1:
 
 @ Delay executing the loop r3 value times
 DELAY:
-    
+	stmfd sp!, {lr}
+
+DELAY_LOOP:
     sub r3, r3, #1
     cmp r3, #0
 	beq END_DELAY
-	b DELAY
+	b DELAY_LOOP
 
 END_DELAY:
+	ldmfd sp!, {lr}
 	mov pc, lr
 
 INVALID_SONAR:

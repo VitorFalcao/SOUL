@@ -1,0 +1,19 @@
+Zane, a funcao q re-ordena o vetor de alarmes ta cagada.
+Eu rodei um teste onde o vetor ficava da seguinte forma:
+
+0.	Tempo: 20
+1.	Endereco: xxx
+2.	Tempo: 800
+3.	Endereco: yyy
+Depois que a funcao de re-ordenar o vetor era executada, a posicao 3 ia pra posicao 1:
+
+0.	Tempo: 20
+1. Endereco: yyy -> Aqui era xxx
+
+Cara, o callback dos alarmes nao ta funcionando nao sei pq. Fiquei horas debugando, achei onde caga, mas nao descobri pq. Te mandei uma foto da situacao. Ele crasha bem na hora de desempilhar os registradores. O programa q usei para testar eh esse que ta no git. Ele chega a executar a funcao de callback, mas ao executar a penultima instrucao dela (ldmfd sp!, ...) ele crasha. Descobri tbm q a stack fica corrompida, mas o endereco de retorno (lr) ta certo.
+
+O read-sonar ta live!!! Fiz um programa onde ele virava pra esquerda qndo o limiar era <= 1200, e funcionou perfeitamente. O negocio eh tentar consertar o os callbacks dos alarmes. O callback de proximidade deve ta dando ruim tbm. Nao tive tempo de testar ele.
+
+OBS: QUALQUER COISA ME LIGA!!! SERIO! POSSO TA DORMINDO, MAS NAO TEM PROBLEMA!!! DEVO CHEGAR NO IC AMANHA (HOJE) A 1 DA TARDE
+
+

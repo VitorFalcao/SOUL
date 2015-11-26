@@ -228,9 +228,9 @@ SET_ALARM:
 
     ldr r6, =TIME
     ldr r8, [r6]
+	
 	cmp r1, r8
-
-	bl invalid_time	
+	beq invalid_time	
 	
 	@@
 	@ SAVES TIME AND FUNCTION POINTER ON STACK
@@ -244,12 +244,10 @@ SET_ALARM:
 	ldr r4, [r3]
 
 	mov r6, #8
-	mul r5, r4, r6 @ Set the offset to the last ALARM_VECTOR element
-
-	add r2, r2, r5 @ Set r2 address to the last element of ALARM_VECTOR
+	mul r5, r4, r6 @ Set the offset to a position after the last ALARM_VECTOR element
 	
-	str r1, [r2, #4] @ Saves the time in the ALARM_VECTOR
-	str r0, [r2, #8] @ Saves the function in the ALARM_VECTOR
+	str r1, [r2, r5]! @ Saves the time in the ALARM_VECTOR AND INCREMENTS R2
+	str r0, [r2, #4] @ Saves the function in the ALARM_VECTOR
 	
 	@ Updates the ALARM_VECTOR_SIZE
 	add r4, r4, #1
