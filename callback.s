@@ -5,12 +5,12 @@ SEARCH_CALLBACK:
 	ldr r1, =CALLBACK_VECTOR
 	
 	ldr r2, =CALLBACK_VECTOR_SIZE
-	ldr r3, [r2]
-
+	ldr r3, [r2]    
+	
 	mov r4, #0 @ Counter
 
-loop:
-
+loop:	
+	
 	cmp r4, r3
 	beq callback_loop_end
 
@@ -23,9 +23,17 @@ loop:
 	bl READ_SONAR @ Receives back the distance in r0 (sonar.s)
 
 	add r6, r6, #4 @ Sets the vector offset to get the distance saved
+	ldr r5, [r1, r6] @ Gets the distance
+	
+	add r6, r6, #4
+	ldr r6, [r1, r6] @ Gets the function address
+	
+	@stmfd sp!, {r3}
 
-	cmp r6, r0
-	bleq call_function_callback
+	cmp r0, r5
+	blls call_function_callback
+
+	@ldmfd sp!, {r3}
 
 	add r4, r4, #1
 	
@@ -35,9 +43,6 @@ call_function_callback:
 	
 	stmfd sp!, {r1-r4, lr} @ Saves the loop current state
 
-	add r6, r6, #4 @ Sets the vector offset to get the callback address	
-	
-	msr CPSR_c, #0x10 @ Switches to USER mode
 	blx r6
 
 	ldmfd sp!, {r1-r4, lr}

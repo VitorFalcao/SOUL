@@ -24,7 +24,7 @@ READ_SONAR:
     and r1, r1, r0
     str r1, [r2]
 
-    mov r3, #500
+    mov r3, #10000
     bl DELAY
 
     @ Set the trigger to one
@@ -33,7 +33,7 @@ READ_SONAR:
     orr r1, r1, r0
     str r1, [r2]
 
-    mov r3, #500
+    mov r3, #10000
     bl DELAY
 
     @ Set the trigger to zero
@@ -51,7 +51,7 @@ WAIT_FLAG:
 
     cmp r0, #0
     bne FLAG_1
-    mov r3, #360
+    mov r3, #6000
     bl DELAY
     b WAIT_FLAG
 
@@ -64,7 +64,7 @@ FLAG_1:
     lsr r0, r0, #6
 
     ldmfd sp!, {r1-r12, lr}
-	movs pc, lr
+	mov pc, lr
 
 @ Delay executing the loop r3 value times
 DELAY:
