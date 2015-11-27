@@ -36,10 +36,13 @@ all: disk.img
 soul: $(SOUL_OBJS)
 	$(LD) $^ -o $@ $(LD_FLAGS) --section-start=.iv=0x778005e0 -Ttext=0x77800700 -Tdata=0x77801800 -e 0x778005e0
 
-ronda.x: ronda.o api_robot2.o
+ronda.x: ronda.o api_robot.o
 	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77803000
 
-programa: programa.o
+api_robot.o: api_robot2.s
+	arm-eabi-as -g api_robot2.s -o api_robot.o
+
+programa: programa.o api_robot.o
 	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77803000
 
 programa.o: programa.s

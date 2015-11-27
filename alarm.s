@@ -47,6 +47,15 @@ loop_vector:
 	mul r4, r2, r4
 	ldr r5, [r3, r4]
 
+    @ Enquanto nao chegar o fim do vetor
+    cmp r2, r1
+    bge alarm_loop_end	
+	
+    @ Carrega o valor da posicao BASE + r2*8 do vetor
+   	mov r4, #8
+	mul r4, r2, r4
+	ldr r5, [r3, r4]
+
     @ Carrega em r7 o tempo atual
     ldr r6, =TIME
    	ldr r7, [r6]
@@ -80,6 +89,8 @@ call_function_alarm:
 
 	ldr r0, [r0]
     blx r0 @ Calls the user function
+	
+	ldmfd sp!, {r0-r3}
 
    	bl ORGANIZE_VECTOR @ TA COM ERRO! REVISAR!!!
 
@@ -87,8 +98,6 @@ call_function_alarm:
     ldr r0, [r1]
     sub r0, r0, #1
     str r0, [r1] @ Updates the size of alarm vector
-
-	ldmfd sp!, {r0-r3}
 
 	ldmfd sp!, {lr}
 	mov pc, lr

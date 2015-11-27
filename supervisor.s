@@ -74,7 +74,7 @@ REGISTER_PROXIMITY_CALLBACK:
 	mov r6, #12
 	mul r6, r5, r6
 
-	str r0, [r3, r5]! @ Saves the sonar id
+	str r0, [r3, r6]! @ Saves the sonar id
 	str r1, [r3, #4] @ Saves the distance
 	str r2, [r3, #8] @ Saves the function address (callback)
 	
