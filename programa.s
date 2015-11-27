@@ -19,14 +19,19 @@ _start:
 	stmfd	sp!, {fp, lr}
 	add	fp, sp, #4
 	ldr	r0, .L4
-	mov	r1, #500
+	mov	r1, #5
 	bl	add_alarm
+	mov	r0, #3
+	mov	r1, #1200
+	ldr	r2, .L4+4
+	bl	register_proximity_callback
 .L2:
 	b	.L2
 .L5:
 	.align	2
 .L4:
 	.word	set_2
+	.word	set
 	.size	_start, .-_start
 	.align	2
 	.global	set

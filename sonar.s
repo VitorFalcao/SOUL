@@ -24,11 +24,7 @@ READ_SONAR:
     and r1, r1, r0
     str r1, [r2]
 
-<<<<<<< HEAD
     mov r3, #500
-=======
-    ldr r3, =500
->>>>>>> 22b022042d0878e362ef281badf46047e9ae4103
     bl DELAY
 
     @ Set the trigger to one
@@ -37,11 +33,7 @@ READ_SONAR:
     orr r1, r1, r0
     str r1, [r2]
 
-<<<<<<< HEAD
     mov r3, #500
-=======
-    ldr r3, =500
->>>>>>> 22b022042d0878e362ef281badf46047e9ae4103
     bl DELAY
 
     @ Set the trigger to zero

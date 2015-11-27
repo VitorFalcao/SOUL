@@ -5,6 +5,9 @@
 .set GPIO_BASE, 0x53F84000 
 
 .data
+	
+	READ_SONAR_FLAG:
+		.word 0	
 
 	TIME:
 		.word 0

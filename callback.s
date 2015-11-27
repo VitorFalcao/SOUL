@@ -1,6 +1,16 @@
 SEARCH_CALLBACK:
 
 	stmfd sp!, {lr}
+	
+	ldr r1, =READ_SONAR_FLAG
+	ldr r2, [r1]
+	
+	@ Checks if a read sonar is alredy running	
+	cmp r2, #1
+	beq read_sonar_exit
+	
+	mov r2, #1
+	str r2, [r1]	
 
 	ldr r1, =CALLBACK_VECTOR
 
@@ -49,7 +59,17 @@ call_function_callback:
 	mov pc, lr
 
 callback_loop_end:
-
+	
 	ldmfd sp!, {lr}
+
+	@ Set the read sonar flag to 0
+	ldr r1, =READ_SONAR_FLAG
+	mov r2, #0
+	str r2, [r1]
+
 	mov pc, lr
 
+read_sonar_exit:
+
+	ldmfd sp!, {lr}	
+	mov pc, lr
