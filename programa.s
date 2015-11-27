@@ -14,31 +14,18 @@
 	.global	_start
 	.type	_start, %function
 _start:
-	@ args = 0, pretend = 0, frame = 8
+	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	stmfd	sp!, {fp, lr}
 	add	fp, sp, #4
-	sub	sp, sp, #8
-	mov	r3, #0
-	str	r3, [fp, #-8]
-	mov	r0, #3
-	mov	r1, #1200
-	ldr	r2, .L4
-	bl	register_proximity_callback
-	mov	r0, #3
-	ldr	r1, .L4+4
-	ldr	r2, .L4+8
-	bl	register_proximity_callback
-	mov	r0, #50
-	mov	r1, #50
-	bl	set_motors_speed
+	ldr	r0, .L4
+	mov	r1, #500
+	bl	add_alarm
 .L2:
 	b	.L2
 .L5:
 	.align	2
 .L4:
-	.word	set
-	.word	2500
 	.word	set_2
 	.size	_start, .-_start
 	.align	2

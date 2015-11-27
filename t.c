@@ -5,13 +5,7 @@ void set_2();
 
 void _start() {
 
-	int i = 0;
-
-	register_proximity_callback(3, 1200, &set);
-	
-	register_proximity_callback(3, 2500, &set_2);
-
-	set_motors_speed(50, 50);
+	add_alarm(&set_2, 500);
 
 	while (1) {
 		
