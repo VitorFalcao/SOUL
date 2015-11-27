@@ -7,6 +7,7 @@ void set_4();
 
 void _start() {
 
+<<<<<<< HEAD
 	int i = 0;
 /*
 	register_proximity_callback(3, 1200, &set);

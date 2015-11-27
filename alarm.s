@@ -91,6 +91,8 @@ call_function_alarm:
     blx r0 @ Calls the user function
 	
 	ldmfd sp!, {r0-r3}
+	ldr r0, =ALARM_VECTOR_SIZE
+	ldr r1, [r0]
 
    	bl ORGANIZE_VECTOR @ TA COM ERRO! REVISAR!!!
 

@@ -36,7 +36,7 @@ all: disk.img
 soul: $(SOUL_OBJS)
 	$(LD) $^ -o $@ $(LD_FLAGS) --section-start=.iv=0x778005e0 -Ttext=0x77800700 -Tdata=0x77801800 -e 0x778005e0
 
-ronda.x: ronda.o api_robot.o
+main.x: main.o api_robot.o
 	$(LD) $^ -o $@ $(LD_FLAGS) -Ttext=0x77803000
 
 api_robot.o: api_robot2.s
@@ -48,8 +48,14 @@ programa: programa.o api_robot.o
 programa.o: programa.s
 	arm-eabi-as -g programa.s -o programa.o
 
-disk.img: soul programa
-	mksd.sh --so soul --user programa
+main.s:
+	arm-eabi-gcc main.c -S -o main.s
+
+main.o: main.s
+	arm-eabi-as main.s -o main.o
+
+disk.img: soul main.x
+	mksd.sh --so soul --user main.x
 
 clean:
 	rm -f soul programa disk.img *.o

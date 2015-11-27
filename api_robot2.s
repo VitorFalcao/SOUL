@@ -37,6 +37,7 @@ read_sonar:
 	stmfd sp!, {r4-r11, lr}
 	mov r7, #16
 	svc 0x0
+	strh r0, [r1]
 	ldmfd sp!, {r4-r11, lr}
 	mov pc, lr
 
