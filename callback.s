@@ -3,14 +3,14 @@ SEARCH_CALLBACK:
 	stmfd sp!, {lr}
 
 	ldr r1, =CALLBACK_VECTOR
-	
+
 	ldr r2, =CALLBACK_VECTOR_SIZE
-	ldr r3, [r2]    
-	
+	ldr r3, [r2] 
+
 	mov r4, #0 @ Counter
 
-loop:	
-	
+loop:
+
 	cmp r4, r3
 	beq callback_loop_end
 
@@ -24,10 +24,10 @@ loop:
 
 	add r6, r6, #4 @ Sets the vector offset to get the distance saved
 	ldr r5, [r1, r6] @ Gets the distance
-	
+
 	add r6, r6, #4
 	ldr r6, [r1, r6] @ Gets the function address
-	
+
 	@stmfd sp!, {r3}
 
 	cmp r0, r5
@@ -36,11 +36,11 @@ loop:
 	@ldmfd sp!, {r3}
 
 	add r4, r4, #1
-	
+
 	b loop
 
 call_function_callback:
-	
+
 	stmfd sp!, {r1-r4, lr} @ Saves the loop current state
 
 	blx r6
